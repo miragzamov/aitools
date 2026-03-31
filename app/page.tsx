@@ -20,9 +20,9 @@ export default function Page() {
                 Explore Tools
               </Button>
             </Link>
-            <Link href="/request">
+            <Link href="/submit">
               <Button variant="outline" size="lg" className="px-8">
-                Request a Tool
+                Submit a Tool
               </Button>
             </Link>
           </div>
