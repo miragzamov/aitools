@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card"
 import tools from "@/lib/tools"
 import Link from "next/link"
-import { ArrowLeft, ExternalLink } from "lucide-react"
+import { ExternalLink } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
 
@@ -24,12 +24,7 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-background px-6 py-10">
       <div className="mx-auto mb-8 max-w-6xl">
-        <div className="mb-2 flex items-center gap-4">
-          <Link href="/">
-            <ArrowLeft size={32} className="mb-2 text-primary" />
-          </Link>
-          <h1 className="text-4xl font-bold tracking-tight">Tools</h1>
-        </div>
+        <h1 className="text-4xl font-bold tracking-tight">Tools</h1>
         <p className="mt-2 text-muted-foreground">
           Quickly access your tools in one place
         </p>
