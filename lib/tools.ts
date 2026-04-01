@@ -57,7 +57,6 @@ const tools: Tool[] = [
     url: "https://www.adobe.com/firefly",
     category: "Design & Creative",
   },
-
   // --- CODING & TECHNICAL ---
   {
     name: "GitHub Copilot",
@@ -76,6 +75,18 @@ const tools: Tool[] = [
     description: "Meta’s powerful open-weights model for developers to build and deploy custom AI.",
     url: "https://llama.meta.com/",
     category: "Open Source Models",
+  },
+  {
+    name: "Hugging Face",
+    description: "The leading platform for sharing and deploying open-source machine learning models.",
+    url: "https://huggingface.co/",
+    category: "Open Source Models",
+  },
+  {
+    name: "Replit Ai",
+    description: "An AI coding assistant built into the Replit IDE for real-time code generation.",
+    url: "https://replit.com/ai",
+    category: "Coding Assistants",
   },
 
   // --- PRODUCTIVITY & AUDIO ---
