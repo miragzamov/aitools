@@ -4,24 +4,24 @@ import Link from "next/link"
 export default function Page() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background">
-      <section className="container mx-auto px-4 py-16 md:py-24">
+      <section className="w-full container mx-auto px-4 py-12 md:py-16 lg:py-24">
         <div className="mx-auto max-w-4xl text-center">
-          <h1 className="mb-6 text-4xl font-bold text-foreground md:text-6xl">
+          <h1 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
             AiTools
           </h1>
-          <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground md:text-xl">
+          <p className="mx-auto mb-8 max-w-2xl text-base text-muted-foreground sm:text-lg md:text-xl">
             Discover powerful AI-powered tools to enhance your productivity and
             creativity. From content generation to data analysis, AiTools has
             everything you need.
           </p>
-          <div className="flex flex-col justify-center gap-4 sm:flex-row">
-            <Link href="/tools">
-              <Button size="lg" className="px-8">
+          <div className="flex flex-col gap-3 sm:gap-4 sm:flex-row justify-center items-stretch sm:items-center">
+            <Link href="/tools" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto px-6 sm:px-8">
                 Explore Tools
               </Button>
             </Link>
-            <Link href="/submit">
-              <Button variant="outline" size="lg" className="px-8">
+            <Link href="/submit" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto px-6 sm:px-8">
                 Submit a Tool
               </Button>
             </Link>
