@@ -59,12 +59,6 @@ const tools: Tool[] = [
   },
   // --- CODING & TECHNICAL ---
   {
-    name: "GitHub Copilot",
-    description: "An AI programmer that suggests code and functions in real-time within your editor.",
-    url: "https://github.com/features/copilot",
-    category: "Coding Assistants",
-  },
-  {
     name: "Cursor",
     description: "An AI-native code editor that understands your entire codebase for seamless refactoring.",
     url: "https://www.cursor.com/",
@@ -83,7 +77,7 @@ const tools: Tool[] = [
     category: "Open Source Models",
   },
   {
-    name: "Replit Ai",
+    name: "Replit AI",
     description: "An AI coding assistant built into the Replit IDE for real-time code generation.",
     url: "https://replit.com/ai",
     category: "Coding Assistants",
