@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 import Link from "next/link"
-import { ExternalLink, Star } from "lucide-react"
+import { ExternalLink } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -122,25 +122,12 @@ export default function Page() {
                       <img
                         src={getFavicon(tool.url)}
                         alt={tool.name}
-                        className="h-10 w-10 rounded-xl bg-white p-1 shadow-sm"
+                        className="h-10 w-10 rounded-xl bg-white shadow-sm"
                       />
                       <CardTitle className="text-lg leading-tight">
                         {tool.name}
                       </CardTitle>
                     </div>
-
-                    {/* Favorite */}
-                    <button
-                      onClick={() => toggleFavorite(tool.name)}
-                      className="opacity-60 hover:opacity-100 transition"
-                    >
-                      <Star
-                        size={18}
-                        className={
-                          isFav ? "fill-yellow-400 text-yellow-400" : ""
-                        }
-                      />
-                    </button>
                   </div>
 
                   <CardDescription className="text-sm text-muted-foreground line-clamp-3">
