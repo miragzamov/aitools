@@ -16,11 +16,11 @@ import { Input } from "@/components/ui/input"
 
 import tools from "@/lib/tools"
 import { getFavicon } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 
 export default function Page() {
   const [search, setSearch] = useState("")
   const [activeCategory, setActiveCategory] = useState("All")
-  const [favorites, setFavorites] = useState<string[]>([])
 
   // Extract categories
   const categories = useMemo(() => {
@@ -41,22 +41,8 @@ export default function Page() {
 
         return matchesSearch && matchesCategory
       })
-      .sort((a, b) => {
-        const aFav = favorites.includes(a.name)
-        const bFav = favorites.includes(b.name)
-
-        if (aFav === bFav) return 0
-        return aFav ? -1 : 1
-      })
-  }, [search, activeCategory, favorites])
-
-  const toggleFavorite = (name: string) => {
-    setFavorites((prev) =>
-      prev.includes(name)
-        ? prev.filter((t) => t !== name)
-        : [...prev, name]
-    )
-  }
+      .sort((a, b) => a.name.localeCompare(b.name))
+  }, [search, activeCategory])
 
   return (
     <div className="min-h-screen bg-background px-6 py-10">
@@ -109,7 +95,6 @@ export default function Page() {
       >
         {filteredTools.length > 0 ? (
           filteredTools.map((tool) => {
-            const isFav = favorites.includes(tool.name)
 
             return (
               <Card
@@ -124,6 +109,17 @@ export default function Page() {
                         alt={tool.name}
                         className="h-10 w-10 rounded-xl bg-white shadow-sm"
                       />
+                    </div>
+                    <Badge
+                      variant="outline"
+                    >
+                      {tool.price || "Unknown"}
+
+                    </Badge>
+                  </div>
+
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
                       <CardTitle className="text-lg leading-tight">
                         {tool.name}
                       </CardTitle>
@@ -133,6 +129,8 @@ export default function Page() {
                   <CardDescription className="text-sm text-muted-foreground line-clamp-3">
                     {tool.description}
                   </CardDescription>
+
+                  <Badge className="self-start">{tool.category}</Badge>
                 </CardHeader>
 
                 <CardFooter>
