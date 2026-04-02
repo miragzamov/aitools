@@ -41,7 +41,6 @@ export default function Page() {
 
         return matchesSearch && matchesCategory
       })
-      .sort((a, b) => a.name.localeCompare(b.name))
   }, [search, activeCategory])
 
   return (
