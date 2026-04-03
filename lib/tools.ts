@@ -102,6 +102,13 @@ const tools: Tool[] = [
     category: "Coding Assistants",
     price: "Freemium",
   },
+  {
+    name: "GitReverse",
+    description:"Reverse engineer any repo into it's original prompt",
+    url:"https://gitreverse.com",
+    category:"Coding Assistants",
+    price:"Free"
+  },
 
   // --- PRODUCTIVITY & AUDIO ---
   {
