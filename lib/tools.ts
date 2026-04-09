@@ -30,6 +30,13 @@ const tools: Tool[] = [
     price: "Freemium",
   },
   {
+    name:"Grok",
+    description:"An AI assistant built into X (formerly Twitter) for real-time information and social media insights.",
+    url:"https://x.com/grok",
+    category:"AI Assistants",
+    price:"Freemium"
+  },
+  {
     name: "Perplexity AI",
     description: "A research-focused search engine that provides cited answers to real-time queries.",
     url: "https://www.perplexity.ai/",
