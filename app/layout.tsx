@@ -36,9 +36,6 @@ export default function RootLayout({
         geist.variable
       )}
     >
-      <head>
-        <script src="https://quge5.com/88/tag.min.js" data-zone="250298" async data-cfasync="false"></script> 
-      </head>
       <body>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
