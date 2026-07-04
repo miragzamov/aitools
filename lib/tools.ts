@@ -1,9 +1,9 @@
-interface Tool {
-  name: string;
-  description: string;
-  url: string;
-  category: string;
-  price?: string;
+export interface Tool {
+  name: string
+  description: string
+  url: string
+  category: string
+  price?: string
 }
 
 const tools: Tool[] = [
@@ -30,11 +30,12 @@ const tools: Tool[] = [
     price: "Freemium",
   },
   {
-    name:"Grok",
-    description:"An AI assistant built into X (formerly Twitter) for real-time information and social media insights.",
-    url:"https://x.com/grok",
-    category:"AI Assistants",
-    price:"Freemium"
+    name: "Grok",
+    description:
+      "An AI assistant built into X (formerly Twitter) for real-time information and social media insights.",
+    url: "https://x.com/grok",
+    category: "AI Assistants",
+    price: "Freemium",
   },
   {
     name: "Perplexity AI",

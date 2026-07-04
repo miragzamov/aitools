@@ -1,6 +1,8 @@
+import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 
 import "./globals.css"
+import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 
@@ -11,13 +13,13 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
-export const metadata = {
+export const metadata: Metadata = {
   title: {
-    default: "AiTools | by MIRAGZAMOV",
+    default: "AiTools",
     template: "%s | AiTools",
   },
   description:
-    "Discover powerful AI-powered tools to enhance your productivity and creativity. From content generation to data analysis, AiTools has everything you need.",
+    "Discover powerful AI tools to enhance your productivity and creativity — from language models to coding assistants.",
 }
 
 export default function RootLayout({
@@ -37,7 +39,10 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <SiteHeader />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )

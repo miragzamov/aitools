@@ -1,170 +1,182 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import Link from "next/link"
-import { ExternalLink } from "lucide-react"
+import { motion } from "framer-motion"
+import { Search, SlidersHorizontal } from "lucide-react"
 
+import { AuroraBackground } from "@/components/aurora-background"
+import { ToolCard } from "@/components/tool-card"
 import { Button } from "@/components/ui/button"
 import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
 import { Input } from "@/components/ui/input"
-
+import { getCategoryColor } from "@/lib/category-colors"
 import tools from "@/lib/tools"
-import { getFavicon } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
+import { cn } from "@/lib/utils"
 
 export default function Page() {
   const [search, setSearch] = useState("")
   const [activeCategory, setActiveCategory] = useState("All")
 
-  // Extract categories
   const categories = useMemo(() => {
     const cats = tools.map((t) => t.category || "Other")
     return ["All", ...Array.from(new Set(cats))]
   }, [])
 
-  // Filter + sort
+  const categoryCounts = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const tool of tools) {
+      const cat = tool.category || "Other"
+      counts.set(cat, (counts.get(cat) ?? 0) + 1)
+    }
+    counts.set("All", tools.length)
+    return counts
+  }, [])
+
   const filteredTools = useMemo(() => {
-    return tools
-      .filter((tool) => {
-        const text = `${tool.name} ${tool.description}`.toLowerCase()
-        const matchesSearch = text.includes(search.toLowerCase())
+    const query = search.toLowerCase().trim()
 
-        const matchesCategory =
-          activeCategory === "All" ||
-          (tool.category || "Other") === activeCategory
+    return tools.filter((tool) => {
+      const matchesSearch =
+        !query ||
+        `${tool.name} ${tool.description} ${tool.category}`
+          .toLowerCase()
+          .includes(query)
 
-        return matchesSearch && matchesCategory
-      })
+      const matchesCategory =
+        activeCategory === "All" ||
+        (tool.category || "Other") === activeCategory
+
+      return matchesSearch && matchesCategory
+    })
   }, [search, activeCategory])
 
+  const activeColors = getCategoryColor(activeCategory)
+
   return (
-    <div className="min-h-screen bg-background px-6 py-10">
-      {/* Header */}
-      <div className="mx-auto mb-10 max-w-6xl">
-        <h1 className="text-4xl font-bold tracking-tight">Tools</h1>
-        <p className="mt-2 text-muted-foreground max-w-xl">
-          Search, filter, and quickly launch the tools you use every day.
-        </p>
+    <div className="relative min-h-[calc(100vh-3.5rem)]">
+      <AuroraBackground />
 
-        {/* Search */}
-        <div className="mt-6">
-          <Input
-            autoFocus
-            placeholder="Search tools..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Escape") setSearch("")
-            }}
-            className="max-w-md"
-          />
-        </div>
-
-        {/* Categories */}
-        <div className="mt-4 flex flex-wrap gap-2">
-          {categories.map((cat) => (
-            <Button
-              key={cat}
-              size="sm"
-              variant={activeCategory === cat ? "default" : "outline"}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </Button>
-          ))}
-        </div>
-      </div>
-
-      {/* Grid */}
-      <div
-        className="
-        mx-auto grid max-w-6xl gap-6
-        grid-cols-1
-        sm:grid-cols-1
-        md:grid-cols-3
-        lg:grid-cols-3
-        xl:grid-cols-4
-      "
-      >
-        {filteredTools.length > 0 ? (
-          filteredTools.map((tool) => {
-
-            return (
-              <Card
-                key={tool.name}
-                className="group flex flex-col justify-between rounded-2xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
-              >
-                <CardHeader className="space-y-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={getFavicon(tool.url)}
-                        alt={tool.name}
-                        className="h-10 w-10 rounded-xl bg-white shadow-sm"
-                      />
-                    </div>
-                    <Badge
-                      variant="outline"
-                    >
-                      {tool.price || "Unknown"}
-
-                    </Badge>
-                  </div>
-
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <CardTitle className="text-lg leading-tight">
-                        {tool.name}
-                      </CardTitle>
-                    </div>
-                  </div>
-
-                  <CardDescription className="text-sm text-muted-foreground line-clamp-3">
-                    {tool.description}
-                  </CardDescription>
-
-                  <Badge className="self-start">{tool.category}</Badge>
-                </CardHeader>
-
-                <CardFooter>
-                  <Link
-                    href={tool.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full"
-                  >
-                    <Button className="w-full flex items-center justify-center gap-2 group-hover:gap-3 transition-all">
-                      Open
-                      <ExternalLink
-                        size={16}
-                        className="transition-transform group-hover:translate-x-1"
-                      />
-                    </Button>
-                  </Link>
-                </CardFooter>
-              </Card>
-            )
-          })
-        ) : (
-          <div className="col-span-full text-center py-16">
-            <p className="text-lg font-medium">No tools found</p>
-            <p className="text-sm text-muted-foreground mt-1">
-              Try a different keyword or clear search
-            </p>
-            <Button
-              variant="outline"
-              className="mt-4"
-              onClick={() => setSearch("")}
-            >
-              Clear search
-            </Button>
+      <div className="relative mx-auto max-w-6xl px-6 py-10">
+        <header className="mb-10">
+          <div className="flex items-center gap-2 text-sm font-medium text-violet-600 dark:text-violet-400">
+            <SlidersHorizontal className="size-4" />
+            Directory
           </div>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+            Browse{" "}
+            <span className="gradient-text">AI Tools</span>
+          </h1>
+          <p className="mt-2 max-w-xl text-muted-foreground">
+            Search, filter by category, and launch tools instantly.
+          </p>
+
+          <div className="relative mt-6 max-w-lg">
+            <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-violet-500" />
+            <Input
+              autoFocus
+              placeholder="Search tools..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") setSearch("")
+              }}
+              className="h-11 border-violet-500/20 bg-card/60 pl-10 backdrop-blur-sm focus-visible:border-violet-500/50 focus-visible:ring-violet-500/25"
+              aria-label="Search tools"
+            />
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {categories.map((cat) => {
+              const colors = getCategoryColor(cat)
+              const isActive = activeCategory === cat
+
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setActiveCategory(cat)}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-all duration-200",
+                    isActive ? colors.pillActive : cn("bg-card/50 backdrop-blur-sm", colors.pill)
+                  )}
+                >
+                  {!isActive && (
+                    <span className={cn("size-1.5 rounded-full", colors.dot)} />
+                  )}
+                  {cat}
+                  <span
+                    className={cn(
+                      "rounded-full px-1.5 py-0.5 text-xs tabular-nums",
+                      isActive
+                        ? "bg-white/20"
+                        : "bg-muted/80 text-muted-foreground"
+                    )}
+                  >
+                    {categoryCounts.get(cat) ?? 0}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+
+          <p className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+            <span className={cn("size-2 rounded-full", activeColors.dot)} />
+            Showing {filteredTools.length} of {tools.length} tools
+          </p>
+        </header>
+
+        {filteredTools.length > 0 ? (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{
+              visible: { transition: { staggerChildren: 0.035 } },
+            }}
+            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          >
+            {filteredTools.map((tool) => (
+              <motion.div
+                key={tool.name}
+                variants={{
+                  hidden: { opacity: 0, y: 16 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+              >
+                <ToolCard tool={tool} />
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : (
+          <Empty className="glass-panel border-violet-500/20">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <Search className="text-violet-500" />
+              </EmptyMedia>
+              <EmptyTitle>No tools found</EmptyTitle>
+              <EmptyDescription>
+                Try a different keyword or pick another category.
+              </EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent>
+              <Button
+                variant="outline"
+                className="gradient-border"
+                onClick={() => {
+                  setSearch("")
+                  setActiveCategory("All")
+                }}
+              >
+                Clear filters
+              </Button>
+            </EmptyContent>
+          </Empty>
         )}
       </div>
     </div>

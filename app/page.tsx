@@ -1,140 +1,133 @@
 "use client"
 
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import tools from "@/lib/tools"
-import { motion, Variants } from "framer-motion"
-import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
+import { ArrowRight, Sparkles, Zap, Shield, Layers } from "lucide-react"
 
-// Wrap the Button with motion
-const MotionButton = motion(Button)
+import { AuroraBackground } from "@/components/aurora-background"
+import { Button } from "@/components/ui/button"
+import { useCountUp } from "@/hooks/use-count-up"
+import tools from "@/lib/tools"
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0 },
+}
+
+const stats = [
+  {
+    key: "tools",
+    icon: Layers,
+    label: "Tools",
+    color: "from-violet-500 to-fuchsia-500",
+    glow: "shadow-violet-500/20",
+  },
+  {
+    key: "paywalls",
+    icon: Shield,
+    label: "Paywalls",
+    color: "from-cyan-400 to-blue-500",
+    glow: "shadow-cyan-500/20",
+  },
+  {
+    key: "speed",
+    icon: Zap,
+    label: "Discovery",
+    color: "from-amber-400 to-orange-500",
+    glow: "shadow-amber-500/20",
+  },
+] as const
 
 export default function Page() {
-  const [count, setCount] = useState(0)
-
-  // Count-up animation for Tools
-  useEffect(() => {
-    let start = 0
-    const end = tools.length
-    if (start === end) return
-
-    const duration = 1500
-    let current = start
-    const increment = end / (duration / 50)
-
-    const timer = setInterval(() => {
-      current += increment
-      if (current >= end) {
-        current = end
-        clearInterval(timer)
-      }
-      setCount(Math.floor(current))
-    }, 50)
-  }, [])
-
-  // Variants for staggered letter animation
-  const letterVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.05, duration: 0.4 }
-    })
-  }
+  const toolCount = useCountUp(tools.length)
 
   return (
-    <main className="flex items-center justify-center min-h-screen bg-neutral-950 text-white overflow-hidden">
-      <section className="relative max-w-6xl mx-auto px-6 py-32 text-center space-y-10 z-10">
-        {/* Staggered content */}
-        <motion.div
+    <main className="relative min-h-[calc(100vh-3.5rem)] overflow-hidden">
+      <AuroraBackground />
+
+      <section className="relative mx-auto flex max-w-5xl flex-col items-center px-6 py-20 text-center sm:py-28">
+        <motion.span
+          variants={fadeUp}
           initial="hidden"
           animate="visible"
-          variants={{ visible: { transition: { staggerChildren: 0.2 } } }}
-          className="space-y-5 max-w-3xl mx-auto"
+          transition={{ duration: 0.5 }}
+          className="mb-8 inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-sm font-medium text-violet-700 dark:text-violet-300"
         >
-          {/* Badge */}
-          <motion.span
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-block rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-white/80"
-          >
-            Curated AI Tools
-          </motion.span>
+          <Sparkles className="size-3.5 text-fuchsia-500" />
+          Curated AI Tools
+        </motion.span>
 
-          {/* Heading with letter animation */}
-          <motion.h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-tight">
-            {"Explore AI tools with clarity and speed".split("").map((char, i) => (
-              <motion.span key={i} custom={i} variants={letterVariants} initial="hidden" animate="visible">
-                {char}
-              </motion.span>
-            ))}
-          </motion.h1>
+        <motion.h1
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="max-w-4xl text-4xl font-bold tracking-tight sm:text-6xl sm:leading-[1.08]"
+        >
+          Explore AI tools with{" "}
+          <span className="gradient-text text-shimmer">clarity & speed</span>
+        </motion.h1>
 
-          {/* Paragraph */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-neutral-400 text-lg leading-relaxed"
-          >
-            Discover the best AI tools, assistants, and builders with a clean interface and effortless exploration.
-          </motion.p>
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-6 max-w-2xl text-lg text-muted-foreground"
+        >
+          A vibrant directory of the best AI assistants, builders, and creative
+          tools — zero clutter, zero paywalls.
+        </motion.p>
 
-          {/* Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex gap-4 justify-center pt-4"
-          >
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-10 flex flex-col gap-3 sm:flex-row"
+        >
+          <Button size="lg" asChild className="btn-glow bg-linear-to-r from-violet-600 to-fuchsia-600 text-white hover:from-violet-500 hover:to-fuchsia-500 border-0">
             <Link href="/tools">
-              <MotionButton
-                variant="default"
-                size="lg"
-                whileHover={{ scale: 1.05, boxShadow: "0px 8px 20px rgba(255,255,255,0.3)" }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Browse Tools
-              </MotionButton>
+              Browse Tools
+              <ArrowRight className="size-4" />
             </Link>
-            <Link href="/submit">
-              <MotionButton
-                variant="outline"
-                size="lg"
-                whileHover={{ scale: 1.05, boxShadow: "0px 8px 20px rgba(255,255,255,0.3)" }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Submit Tool
-              </MotionButton>
-            </Link>
-          </motion.div>
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            asChild
+            className="gradient-border backdrop-blur-sm"
+          >
+            <Link href="/submit">Submit Tool</Link>
+          </Button>
         </motion.div>
 
-        {/* Stats */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="flex justify-center gap-12 pt-12 border-t border-white/20"
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.5, delay: 0.45 }}
+          className="mt-16 grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-3"
         >
-          {/* Tools count */}
-          <motion.div whileHover={{ scale: 1.05, y: -5 }} className="text-center">
-            <p className="text-3xl font-semibold">{count}</p>
-            <p className="text-sm text-neutral-500">Tools</p>
-          </motion.div>
-
-          {/* Paywalls */}
-          <motion.div whileHover={{ scale: 1.05, y: -5 }} className="text-center">
-            <p className="text-3xl font-semibold">0</p>
-            <p className="text-sm text-neutral-500">Paywalls</p>
-          </motion.div>
-
-          {/* Discovery */}
-          <motion.div whileHover={{ scale: 1.05, y: -5 }} className="text-center">
-            <p className="text-3xl font-semibold">Fast</p>
-            <p className="text-sm text-neutral-500">Discovery</p>
-          </motion.div>
+          {stats.map(({ key, icon: Icon, label, color, glow }) => (
+            <div
+              key={key}
+              className={`glass-panel group relative overflow-hidden rounded-2xl p-5 text-left shadow-lg ${glow} transition-transform hover:-translate-y-1`}
+            >
+              <div
+                className={`absolute -top-8 -right-8 size-24 rounded-full bg-linear-to-br ${color} opacity-20 blur-2xl transition-opacity group-hover:opacity-40`}
+              />
+              <div
+                className={`mb-3 inline-flex size-9 items-center justify-center rounded-xl bg-linear-to-br ${color} text-white shadow-md`}
+              >
+                <Icon className="size-4" />
+              </div>
+              <p className="text-3xl font-bold tabular-nums">
+                {key === "tools" ? toolCount : key === "paywalls" ? "0" : "Fast"}
+              </p>
+              <p className="mt-0.5 text-sm text-muted-foreground">{label}</p>
+            </div>
+          ))}
         </motion.div>
       </section>
     </main>
