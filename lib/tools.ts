@@ -175,7 +175,14 @@ const tools: Tool[] = [
     url: "https://www.jasper.ai/",
     category: "Marketing",
     price: "Freemium",
-  }
+  },
+  {
+    name: "Fortuneteller.Today",
+    description: "AI tarot, astrology, numerology, BaZi, and rune readings for practical reflection.",
+    url: "https://www.fortuneteller.today/",
+    category: "AI Assistants",
+    price: "Freemium",
+  },
 ];
 
 export default tools;
